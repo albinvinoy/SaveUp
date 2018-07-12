@@ -1,5 +1,6 @@
-from flask_sqlalchemy import SQLAlchemy
 from budgetTracking import db
+from datetime import datetime
+
 
 class User(db.Model):
     # Table for user
@@ -36,6 +37,3 @@ class Income(db.Model):
 
     def __repr__(self):
         return "{} {}".format(self.amount, self.postedDate)
-
-
-
