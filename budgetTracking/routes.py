@@ -1,6 +1,5 @@
 from flask import render_template
-from budgetTracking import app
-
+from budgetTracking import app, db
 
 @app.route("/")
 @app.route("/welcome")
