@@ -1,7 +1,9 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-import os
 from flask_migrate import Migrate
+
+
+import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 from datetime import datetime
 
