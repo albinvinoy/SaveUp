@@ -11,3 +11,9 @@ def home():
 def login():
     form = LoginForm()
     return render_template("login.html", form=form)
+
+
+@app.route("/register")
+def register():
+    form = RegisterForm()
+    return render_template("register.html", form=form)
