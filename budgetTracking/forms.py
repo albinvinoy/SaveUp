@@ -11,7 +11,6 @@ class RegisterForm(FlaskForm):
     confirmPassword = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
 
     submit = SubmitField('Sign Up')
-
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user:
@@ -22,9 +21,10 @@ class LoginForm(FlaskForm):
 
     username = StringField("Username", validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
-
     submit = SubmitField('Log in')
 
+    #Every time the form is submitted these functions are triggered, 
+    # #if commented then code should handle it
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if not user:

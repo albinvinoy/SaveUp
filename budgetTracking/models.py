@@ -13,7 +13,7 @@ class User(db.Model):
     expenses = db.relationship('Expense', backref='user')
 
     def __repr__(self):
-        return "{} {}".format(self.username, self.email)
+        return "{}".format(self.username)
 
 
 class Expense(db.Model):
