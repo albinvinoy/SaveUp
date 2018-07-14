@@ -2,6 +2,9 @@ from flask import render_template, url_for
 from budgetTracking import app, db, bcrypt
 from budgetTracking.forms import RegisterForm, LoginForm
 from budgetTracking.models import User
+from flask_login import login_user, current_user, logout_user, login_required
+
+
 
 @app.route("/")
 @app.route("/welcome")
@@ -34,3 +37,21 @@ def register():
                 db.session.commit()
                 return render_template("welcome.html")
     return render_template("register.html", form=form)
+
+
+@app.route('/updateAccount')
+def updateAccount():
+    '''
+        This will need login info of the user
+        This will add and remove transactions
+    '''
+    return render_template("updateAccount.html")
+
+
+@app.route('/summary')
+def summary():
+    '''
+        This will need login info of the user
+        This will show user details based on filters(?)
+    '''
+    return render_template("summary.html")
