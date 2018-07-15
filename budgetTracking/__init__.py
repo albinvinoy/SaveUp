@@ -15,6 +15,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'bu
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 bcrypt = Bcrypt(app)
-login_user = LoginManager(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+
 
 from budgetTracking import routes, models
+
+
