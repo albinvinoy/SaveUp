@@ -1,8 +1,51 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, DecimalField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from budgetTracking.models import User
+
+#Budget Tracking
+class ExpenseForm(FlaskForm):
+    name = StringField("Store Name", validators=[DataRequired(), Length(min=2, max=20 )])
+    amount = DecimalField("Amount", validators=[DataRequired()], places=2)
+    #picture
+    category = SelectField(label="Category",choices=[ 
+        ("Gas", "Gas"),
+        ("Insurance", "Insurance"),
+        ("Food", "Food"),
+        ("Movie", "Movie"),
+        ("Entertainment", "Entertainment"),
+        ("Bill", "Bill"),
+        ("Office Supplies", "Office Supplies"),
+        ("Grocery", "Grocery"),
+        ("Mortgage", "Mortgage"),
+        ("Repair", "Repair"),
+        ("Online", "Online"),
+        ("Clothing", "Clothing"),
+        ("Accommodation","Accommodation"),
+        ("Taxi", "Taxi")
+        ])
+
+    payment = SelectField(label="Payment", validators=[DataRequired()], choices=[
+        ("cash", "Cash"),
+        ("card", "Card")])
+
+    location = StringField("Location", validators=[Length(min=2, max=20)])
+    date = StringField("Date", validators=[DataRequired()])
+    submit = SubmitField("Add Expenses")
+
+class IncomeForm(FlaskForm):
+    name = StringField("Name", validators=[DataRequired(), Length(min=2, max=20 )])
+    amount = DecimalField("Amount", validators=[DataRequired()], places=2)
+    #picture
+    category = SelectField(label="Category",choices=[ ("Income", "Income") ])
+    payment = SelectField(label="Payment Method", choices=[
+        ("dd", "Direct Deposit"),
+        ("check", "Check")])
+    date = StringField("Date", validators=[DataRequired()])
+
+    submit = SubmitField("Add Income")
+#Login and registration
 
 class RegisterForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])

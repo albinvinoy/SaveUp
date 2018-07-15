@@ -1,6 +1,6 @@
 from flask import render_template, url_for, request, redirect, flash
 from budgetTracking import app, db, bcrypt, login_manager
-from budgetTracking.forms import RegisterForm, LoginForm
+from budgetTracking.forms import RegisterForm, LoginForm, ExpenseForm, IncomeForm
 from budgetTracking.models import User
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -55,14 +55,30 @@ def register():
     return render_template("register.html", form=form)
 
 
-@app.route('/updateAccount')
+@app.route('/updateAccount', methods=["GET", "POST"])
 @login_required
 def updateAccount():
     '''
         This will need login info of the user
         This will add and remove transactions
     '''
-    return render_template("budgetTrack.html")
+    form = ExpenseForm()
+    if request.method == "POST":
+        if request.form.get("btn")=="Expense":
+            print("in expense")
+            form = ExpenseForm()
+        elif request.form.get("btn")=="Income":
+            print("in income")
+            form = IncomeForm()  
+        else:
+            if request.form["submit"]=="Add Expenses":
+                print("in Add Expenses")
+                return redirect(url_for('updateAccount'))
+            else:
+                print("in Add Income")
+                return redirect(url_for('updateAccount'))     
+
+    return render_template("budgetTrack.html", form=form)
 
 
 @app.route('/summary')
