@@ -1,59 +1,37 @@
 <!-- This page will add and delete income and expenses -->
 
-{% extends "layout.html" %} 
+{% extends "layout.html" %} {% block content %}
 
+<form action="" method="POST" accept-charset="utf-8">
+    {{ form.hidden_tag() }}
 
-{% block content %}
+    <input type="submit" name="btn" class="btn btn-outline-info" value="Expense">
+    <input type="submit" name="btn" class="btn btn-outline-info" value="Income">
 
-		<form action="" method="POST" accept-charset="utf-8">
-			{{ form.hidden_tag() }}
+</form>
 
-					<input type="submit" name="btn" class="btn btn-outline-info"  value="Expense">
-	<input type="submit" name="btn" class="btn btn-outline-info" value="Income">
-			
-		</form>
+<div class="content-section">
+    <form action="" method="POST" accept-charset="utf-8">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
 
-
-	<div class="content-section">
-		<form action="" method="POST" accept-charset="utf-8">
-			{{ form.hidden_tag() }}
-			<fieldset class="form-group">
-
-			{% for fo in form %}
-				{% if fo.widget.input_type != "hidden" %} 
-					{% if fo.name != "submit"  %}
-		                <div class="form-group">
-		                    {{ fo.label(class="fo-control-label") }} 
-		                    {% if fo.name.errors %} 
-		                    {{ fo.name(class="form-control form-control-lg is-invalid") }}
-		                    <div class="invalid-feedback">
-		                        {% for error in form.name.errors %}
-		                        <span>{{ error }}</span>
-		                        {% endfor %}
-		                    </div>
-		                    {% else %} 
-		                    {{ fo(class="form-control form-control-lg") }} 
-		                    {% endif %}
-		                </div>
-		            {% endif %}
-	            {% endif %}
-
-            {% endfor %}
-
-			</fieldset>
-			 <div class="form-group">
-                {{ form.submit(class="btn btn-outline-info") }}
+            {% for fo in form %} {% if fo.widget.input_type != "hidden" %} {% if fo.name != "submit" %}
+            <div class="form-group">
+                {{ fo.label(class="fo-control-label") }} {% if fo.name.errors %} {{ fo.name(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.name.errors %}
+                    <span>{{ error }}</span> {% endfor %}
+                </div>
+                {% else %} {{ fo(class="form-control form-control-lg") }} {% endif %}
             </div>
-		</form>
+            {% endif %} {% endif %} {% endfor %}
 
-	</div>
+        </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
 
+</div>
 
-
-{% endblock content %} 
-
-
-{% block sidelink %} 
-	{% include "sidelink.html" %} 
-{% endblock sidelink %}
-
+{% endblock content %} {% block sidelink %} {% include "sidelink.html" %} {% endblock sidelink %}
