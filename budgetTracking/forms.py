@@ -11,6 +11,7 @@ class ExpenseForm(FlaskForm):
     #picture
     category = SelectField(label="Category",choices=[ 
         ("Gas", "Gas"),
+        ("Gadgets", "Gadgets"),
         ("Insurance", "Insurance"),
         ("Food", "Food"),
         ("Movie", "Movie"),

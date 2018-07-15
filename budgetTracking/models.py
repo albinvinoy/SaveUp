@@ -8,7 +8,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
     # email = db.Column(db.String(120), unique=True, nullable=False)
-    profilePicture = db.Column(db.String(20), nullable=False, default='default.jpg')
+    profilePicture = db.Column(db.String(20), nullable=True, default='default.jpg')
     incomes = db.relationship('Income', backref='user')
     expenses = db.relationship('Expense', backref='user')
 
@@ -21,9 +21,9 @@ class Expense(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), nullable=False )
     #add pic later
-    amount = db.Column(db.Integer, nullable=False)
+    amount = db.Column(db.Float, nullable=False)
     category = db.Column(db.String(25))
-    payment = db.Column(db.Float, nullable=False)
+    paymentMethod = db.Column(db.String, nullable=False)
     location = db.Column(db.String(50))
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     
@@ -38,9 +38,9 @@ class Income(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), nullable=False )
     #pic here
-    amount = db.Column(db.Integer, nullable=False)
+    amount = db.Column(db.Float, nullable=False)
     category = db.Column(db.String(25))
-    payment = db.Column(db.Float, nullable=False)
+    paymentMethod = db.Column(db.String, nullable=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     #connect this to user
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
