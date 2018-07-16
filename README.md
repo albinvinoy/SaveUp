@@ -6,10 +6,17 @@ You can now keep track of all the income and expenditure. Along with adding your
 Plan a budget and the app will tell you when you have reached the limit.
 
 Made with:
+
 Python
+
 Flask
+
 Bootstrap 4
+
 Jinja2
+
 SQL Alchemy
+
 Sqlite (moving to postgres soon)
+
 (AWS deployment expected soo)
