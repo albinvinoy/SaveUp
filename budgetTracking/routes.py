@@ -1,4 +1,4 @@
-from flask import render_template, url_for, request, redirect, flash
+from flask import render_template, url_for, request, redirect, flash, jsonify
 from budgetTracking import app, db, bcrypt, login_manager
 from budgetTracking.forms import RegisterForm, LoginForm, ExpenseForm, IncomeForm
 from budgetTracking.models import User, Expense, Income
@@ -22,8 +22,24 @@ def user_loader(user_id):
 Helper functions
 '''
 
+def expenseAdder(form):
+    return Expense(
+        name=form.name.data,
+        amount=form.amount.data,
+        category=form.category.data,
+        paymentMethod=form.payment.data,
+        location=form.location.data,
+        date=datetime.utcnow(),
+        user_id=current_user.id)
 
-
+def incomeAdder(form):
+    return Income(
+        name=form.name.data,
+        amount=form.amount.data,
+        category=form.category.data,
+        paymentMethod=form.payment.data,
+        date=datetime.utcnow(),
+        user_id=current_user.id)
 
 '''
 Application routes
@@ -64,7 +80,7 @@ def register():
                 user = User(username=form.username.data, password=password_hash)
                 db.session.add(user)
                 db.session.commit()
-                return redirect(url_for('login'))
+                return redirect(url_for('register'))
     return render_template("register.html", form=form)
 
 
@@ -84,33 +100,49 @@ def updateTransactions():
             form = IncomeForm()  
         else:
             if request.form["submit"]=="Add Expenses":
-                expense = Expense(
-                    name=form.name.data,
-                    amount=form.amount.data,
-                    category=form.category.data,
-                    paymentMethod=form.payment.data,
-                    location=form.location.data,
-                    date=datetime.utcnow(),
-                    user_id=current_user.id)
+                expense = expenseAdder(form)
                 db.session.add(expense)
                 db.session.commit()
+                # flash("Expense Added")
                 #this is to stop page from resubmitting information
-                return redirect(url_for('updateTransactions'))
+            elif request.form["submit"]=="Add Income":
+                income = incomeAdder(form)
+                db.session.add(income)
+                db.session.commit()
+                # flash("Income Added")
             else:
-                return redirect(url_for('updateTransactions'))     
+                redirect(url_for('logout'))
+            return redirect(url_for('updateTransactions'))     
 
     return render_template("budgetTrack.html", form=form)
 
 
-@app.route('/summary')
+@app.route('/summary', methods=["GET", "POST"])
 @login_required
 def summary():
-    user = User.query.filter_by(username=current_user.username).first()
-    '''
-        This will need login info of the user
-        This will show user details based on filters(?)
-    '''
-    return render_template("summary.html", user=user)
+    #post
+    if request.method=="POST":
+        if request.args.get("btn")=="Expense":
+            #query the expense from database
+            pass
+        elif request.args.get("btn")=="Income":
+            #query the income from database
+            pass
+    #get
+    else:
+
+        user = User.query.filter_by(username=current_user.username).first()
+        expenseQuery = Expense.query.all()
+        contentData = [e.toJson() for e in expenseQuery]
+        print(contentData)
+        '''
+            This will need login info of the user
+            This will show user details based on filters(?)
+        '''
+        return render_template("summary.html", user=user, contentData=contentData)
+
+
+
 
 
 @app.route('/logout')

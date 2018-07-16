@@ -2,6 +2,15 @@ from budgetTracking import db
 from datetime import datetime
 from flask_login import UserMixin
 
+def tableSerialize(self):
+    return {
+        'name' : self.name,
+        'amount' : self.amount,
+        'category' : self.category,
+        'date' : self.date
+    }
+
+
 class User(db.Model, UserMixin):
     # Table for user
     id = db.Column(db.Integer, primary_key=True)
@@ -12,7 +21,7 @@ class User(db.Model, UserMixin):
     incomes = db.relationship('Income', backref='user')
     expenses = db.relationship('Expense', backref='user')
 
-    def __repr__(self):
+    def __str__(self):
         return "{}".format(self.username)
 
 
@@ -30,8 +39,11 @@ class Expense(db.Model):
     #connect this to user
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-    def __repr__(self):
-        return "{} {}".format(self.amount, self.postedDate)
+    def __str__(self):
+        return "{} {} {}".format(self.name, self.amount, self.date)
+
+    toJson = tableSerialize
+
 
 class Income(db.Model):
     # Table that shows income of the user
@@ -45,5 +57,7 @@ class Income(db.Model):
     #connect this to user
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-    def __repr__(self):
-        return "{} {}".format(self.amount, self.postedDate)
+    def __str__(self):
+        return "{} {}".format(self.amount, self.date)
+
+    toJson = tableSerialize
