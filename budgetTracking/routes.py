@@ -122,30 +122,62 @@ def updateTransactions():
 def summary():
     #post
     if request.method=="POST":
-        if request.args.get("btn")=="Expense":
+        user = User.query.filter_by(username=current_user.username).first()
+
+        if request.form.get("fetchData")=="Expense":
+            expenseQuery = Expense.query.filter_by(user_id=user.id)
+            contentData = [e.toJson() for e in expenseQuery]
+            return render_template("summary.html", user=user, requestType="Expense", contentData=contentData)
+
             #query the expense from database
-            pass
-        elif request.args.get("btn")=="Income":
+            
+        elif request.form.get("fetchData")=="Income":
             #query the income from database
-            pass
+            incomeQuery = Income.query.filter_by(user_id=user.id)
+            contentData = [e.toJson() for e in incomeQuery]
+            return render_template("summary.html", user=user, requestType="Income", contentData=contentData)
+
+        else:
+            #make a get request to summary
+            return redirect(url_for('summary'))
+
     #get
     else:
-
+        #This needs to change to show both income and expenses
         user = User.query.filter_by(username=current_user.username).first()
-        expenseQuery = Expense.query.all()
+        expenseQuery = Expense.query.filter_by(user_id=user.id)
         contentData = [e.toJson() for e in expenseQuery]
-        print(contentData)
         '''
             This will need login info of the user
             This will show user details based on filters(?)
         '''
-        return render_template("summary.html", user=user, contentData=contentData)
+        return render_template("summary.html", user=user, requestType='', contentData=contentData)
 
 
+@app.route("/delete/<int:ids>/<typeName>")
+@login_required
+def delete(ids, typeName):
+    print(typeName, ids)
+    if typeName=='':
+        return (''), 204
+    else:
+        if typeName=="Income":
+            Income.query.filter_by(id=ids).delete()
+            print(Income.query.all())
+            user = User.query.filter_by(username=current_user.username).first()
 
+            incomeQuery = Income.query.filter_by(user_id=user.id)
+
+            print(incomeQuery, user.id)
+            contentData = [e.toJson() for e in incomeQuery]
+            print(contentData)
+        elif typeName=="Expense":
+            Expense.query.filter_by(id=ids).delete()
+        return redirect(url_for('summary'))
 
 
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
     return render_template("welcome.html")

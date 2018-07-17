@@ -4,6 +4,7 @@ from flask_login import UserMixin
 
 def tableSerialize(self):
     return {
+        'id': self.id,
         'name' : self.name,
         'amount' : self.amount,
         'category' : self.category,
