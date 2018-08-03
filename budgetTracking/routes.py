@@ -132,8 +132,15 @@ def summary():
     # #get
     # else:
     user = User.query.filter_by(username=current_user.username).first()
-    expenseQuery = Expense.query.all()
-    contentData = [e.toJson() for e in expenseQuery]
+
+    expenseQuery = Expense.query.filter_by(user_id=user.id).all()
+    incomeQuery = Income.query.filter_by(user_id=user.id).all()
+
+    # userQuery = db.session.query(Expense, Income).join(Expense.filter(user_id=user.id), Income.filter(user_id=user.id)).all()
+    userQuery = expenseQuery + incomeQuery
+    # expenseQuery = db.engine.execute('select * from Expense where user_id={}'.format(user.id))
+    
+    contentData = [e.toJson() for e in userQuery]
     print(contentData)
     '''
         This will need login info of the user

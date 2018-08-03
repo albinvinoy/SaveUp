@@ -27,17 +27,22 @@
 
 			<tr>
 				<td rowspan="1">
-					<!-- <input type="submit" name="btn" class="btn btn-outline-info" value="Expense"> -->
+
 					<a class="btn btn-outline-danger btn-sm" href="{{ url_for('deleteTransaction', transactionId=data.id, transactionType=data.type) }}">Delete</a>
 					<input type="submit" name="btn" class="btn btn-outline-success btn-sm" value="View">
-					<!-- <input type="submit" name="btn" class="btn btn-outline-danger btn-sm" value="Delete"> -->
-					<!-- <button type="button" class="btn btn-outline-danger btn-sm">Delete</button> -->
+
 				</td>
 				<!-- <th scope="row"></th> -->
-				<td>{{ data.name }}</td>
-				<td>{{ data.category }}</td>
-				<td>{{ data.amount }}</td>
-				<td>{{ data.date }}</td>
+
+				<td >{{ data.name }}</td>
+				<td >{{ data.category }}</td>
+				{% if data.type == "Expense" %}
+					<td style="color:red; font-weight: bold">{{ data.amount }}</td>
+				{% else %}
+					<td style="color:darkgreen; font-weight: bold">{{ data.amount }}</td>
+				{% endif %}
+
+				<td >{{ data.date }}</td>
 			</tr>
 
 			{% endfor %}
