@@ -30,7 +30,6 @@ class ExpenseForm(FlaskForm):
     payment = SelectField(label="Payment", validators=[DataRequired()], choices=[
         ("cash", "Cash"),
         ("card", "Card")])
-
     location = StringField("Location", validators=[Length(min=2, max=20)])
     date = StringField("Date", validators=[DataRequired()])
     submit = SubmitField("Add Expenses")

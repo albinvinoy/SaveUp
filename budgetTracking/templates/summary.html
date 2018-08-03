@@ -7,16 +7,16 @@
 
 <h1>Summary Page of {{ user.username }}</h1>
 
-    <input type="submit" name="btn" class="btn btn-outline-info"  value="Expense">
-    <input type="submit" name="btn" class="btn btn-outline-info" value="Income">
+    <!-- <input type="submit" name="btn" class="btn btn-outline-info"  value="Expense">
+    <input type="submit" name="btn" class="btn btn-outline-info" value="Income"> -->
 
 	<table class="table table-striped table-bordered" >
 		<thead>
 			<tr>
 				<th scope="col">Options</th>
 				<th scope="col">Name</th>
-				<th scope="col">Amount</th>
 				<th scope="col">Category</th>
+				<th scope="col">Amount</th>
 				<th scope="col" rowspan="1">Date</th>
 			</tr>
 		</thead>
@@ -25,16 +25,18 @@
 
 			{% for data in contentData %}
 
-
 			<tr>
 				<td rowspan="1">
-					<button type="button" class="btn btn-outline-success btn-sm">View</button>
-					<button type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+					<!-- <input type="submit" name="btn" class="btn btn-outline-info" value="Expense"> -->
+					<a class="btn btn-outline-danger btn-sm" href="{{ url_for('deleteTransaction', transactionId=data.id, transactionType=data.type) }}">Delete</a>
+					<input type="submit" name="btn" class="btn btn-outline-success btn-sm" value="View">
+					<!-- <input type="submit" name="btn" class="btn btn-outline-danger btn-sm" value="Delete"> -->
+					<!-- <button type="button" class="btn btn-outline-danger btn-sm">Delete</button> -->
 				</td>
 				<!-- <th scope="row"></th> -->
 				<td>{{ data.name }}</td>
-				<td>{{ data.amount }}</td>
 				<td>{{ data.category }}</td>
+				<td>{{ data.amount }}</td>
 				<td>{{ data.date }}</td>
 			</tr>
 

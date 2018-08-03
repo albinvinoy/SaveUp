@@ -120,29 +120,33 @@ def updateTransactions():
 @app.route('/summary', methods=["GET", "POST"])
 @login_required
 def summary():
-    #post
-    if request.method=="POST":
-        if request.args.get("btn")=="Expense":
-            #query the expense from database
-            pass
-        elif request.args.get("btn")=="Income":
-            #query the income from database
-            pass
-    #get
-    else:
+    # #post
+    # if request.method=="POST":
+    #     if request.args["btn"]=="View":
+    #         print("View called")
+    #     elif request.args["btn"]=="Delete":
+    #         print("Delete called")
+    #     else:
+    #         print("Neither")
+    #         pass
+    # #get
+    # else:
+    user = User.query.filter_by(username=current_user.username).first()
+    expenseQuery = Expense.query.all()
+    contentData = [e.toJson() for e in expenseQuery]
+    print(contentData)
+    '''
+        This will need login info of the user
+        This will show user details based on filters(?)
+    '''
+    return render_template("summary.html", user=user, contentData=contentData)
 
-        user = User.query.filter_by(username=current_user.username).first()
-        expenseQuery = Expense.query.all()
-        contentData = [e.toJson() for e in expenseQuery]
-        print(contentData)
-        '''
-            This will need login info of the user
-            This will show user details based on filters(?)
-        '''
-        return render_template("summary.html", user=user, contentData=contentData)
 
-
-
+@app.route('/deleteTransaction/<int:transactionId>/<string:transactionType>')
+@login_required
+def deleteTransaction(transactionId, transactionType):
+    print(transactionId, transactionType)
+    return redirect(url_for('summary'))
 
 
 @app.route('/logout')

@@ -4,10 +4,12 @@ from flask_login import UserMixin
 
 def tableSerialize(self):
     return {
+        'id' : self.id,
         'name' : self.name,
         'amount' : self.amount,
         'category' : self.category,
-        'date' : self.date
+        'date' : self.date,
+        'type' : self.__class__.__name__
     }
 
 
@@ -43,7 +45,6 @@ class Expense(db.Model):
         return "{} {} {}".format(self.name, self.amount, self.date)
 
     toJson = tableSerialize
-
 
 class Income(db.Model):
     # Table that shows income of the user
