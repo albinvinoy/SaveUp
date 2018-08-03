@@ -13,6 +13,9 @@
 </head>
 
 <body>
+    {% if not current_user.is_authenticated %}
+        <!-- <img class="mainimg" src="{{url_for('static', filename='img/background.jpg' )}}" /> -->
+    {% endif %}
     <header class="site-header">
         <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
             <div class="container">

@@ -159,5 +159,5 @@ def deleteTransaction(transactionId, transactionType):
 @app.route('/logout')
 def logout():
     logout_user()
-    return render_template("welcome.html")
+    return render_template("welcome.html", image=url_for('static', filename="img/background.jpg"))
 
