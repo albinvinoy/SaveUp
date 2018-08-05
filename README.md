@@ -19,4 +19,4 @@ SQL Alchemy
 
 Sqlite (moving to postgres soon)
 
-Heroku : https://immense-dawn-26793.herokuapp.com/
+Heroku : https://savingup.herokuapp.com/
