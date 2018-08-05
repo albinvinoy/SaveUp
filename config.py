@@ -2,5 +2,4 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-class Config(Object):
-    pass
+SQLALCHEMY_DATABASE_URI = "postgresql://albin:1234@localhost/budget"
